@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<title>Eventos</title>
+<meta charset="utf-8">
+
+<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="/css/style.css" />
+
+</head>
+<body>
+
+	<header th:replace="Cabecalho"></header>
+	<div class="container-mx">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<div class="clearfix">
+					<h4 class="titulo-panel">Lista de Pessoa Cadastradas em Sala
+						ou Espaço</h4>
+				</div>
+			</div>
+
+
+			<div class="panel-body">
+				<form method="get" class="form-horizontal"
+					action="/pessoa/lista/porsalaouespaco" th:object="${filtro}">
+					<div class="form-group">
+						<div class="col-sm-3">
+							<div class="input-group">
+								<input class="form-control"
+									placeholder="Informe um nome de uma Sala ou Espaço de cafÉ"
+									autofocus="autofocus" th:field="*{nome}"><span
+									class="input-group-btn">
+									<button type="submit" class="btn btn-default">
+										<i class="glyphicon glyphicon-search"></i>
+									</button>
+								</span>
+							</div>
+						</div>
+					</div>
+				</form>
+				<div class="table-responsive">
+					<table class="table table-bordered table-striped">
+						<thead>
+							<tr>
+								<th class="text-left col-md-6">Nome</th>
+								<th class="text-left col-md-4">Sobrenome</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="pessoa : ${pessoas}">
+								<td class="text-left" th:text="${{pessoa.nome}}"></td>
+								<td class="text-left" th:text="${{pessoa.sobrenome}}"></td>
+							</tr>
+							<tr>
+								<td colspan="3" th:if="${#lists.isEmpty(pessoas)}">Sem
+									espaços cadastrados</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	<footer th:replace="Rodape"></footer>
+</body>
+</html>

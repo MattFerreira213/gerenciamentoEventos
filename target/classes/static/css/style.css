@@ -1,0 +1,16 @@
+.container-mx {
+	margin: 20px;
+}
+
+.navbar {
+	padding-top: 12px;
+}
+
+.link-panel {
+	float: right;
+	text-align: justify;
+}
+
+.titulo-panel {
+	float: left;
+}

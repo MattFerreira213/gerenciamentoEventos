@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+<title>Cadastrar Participante</title>
+<meta charset="utf-8">
+
+<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="/css/style.css" />
+</head>
+
+<body>
+
+	<header th:replace="Cabecalho"></header>
+
+	<div class="container-mx">
+		<form class="form-horizontal" method="post" action="/pessoa">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<div class="clearfix">
+						<h4 class="titulo-panel">Incrição de Participante</h4>
+					</div>
+				</div>
+
+				<div class="panel-body">
+
+					<div class="form-group">
+						<label class="col-sm-2 control-label">Nome</label>
+						<div class="col-sm-2">
+							<input type="text" class="form-control" id="nome" name="nome">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">Sobrenome</label>
+						<div class="col-sm-2">
+							<input type="text" class="form-control" id="sobrenome"
+								name="sobrenome">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-sm-2 control-label">Salas</label>
+						<div class="col-sm-2">
+							<select class="form-control" name="salas">
+								<option th:each="sala : ${todasSalas.salas}"
+									th:value="${sala.id}" th:text="${sala.nome}"></option>
+							</select>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-sm-2 control-label">Espaço Café</label>
+						<div class="col-sm-2">
+							<select class="form-control" name="espacosCafes">
+								<option th:each="espacoCafe : ${todosEspacoCafe.espacosCafes}"
+									th:value="${espacoCafe.id}" th:text="${espacoCafe.nome}"></option>
+							</select>
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<div class="col-sm-offset-2 col-sm-10">
+						<button type="submit" class="btn btn-primary">Salvar</button>
+					</div>
+				</div>
+
+			</div>
+		</form>
+	</div>
+	<footer th:replace="Rodape"></footer>
+</body>
+
+</html>
+

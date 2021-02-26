@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+<title>Cadastrar Intervalo</title>
+<meta charset="utf-8">
+
+<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="/css/style.css" />
+</head>
+
+<body>
+
+	<header th:replace="Cabecalho"></header>
+
+	<div class="container-mx">
+		<form class="form-horizontal" method="post" action="/espacocafe">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<div class="clearfix">
+						<h4 class="titulo-panel">Cadastro de Espaço de Café</h4>
+					</div>
+				</div>
+
+				<div class="panel-body">
+
+					<div class="form-group">
+						<label class="col-sm-2 control-label">Nome</label>
+						<div class="col-sm-2">
+							<input type="text" class="form-control" id="nome"
+								name="nome">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">Lotação</label>
+						<div class="col-sm-1">
+							<input type="text" class="form-control" id="lotacao"
+								name="lotacao">
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-offset-2 col-sm-10">
+							<button type="submit" class="btn btn-primary">Salvar</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+	
+	<footer th:replace="Rodape"></footer>
+</body>
+
+</html>

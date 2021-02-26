@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<title>Eventos</title>
+<meta charset="utf-8">
+
+<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="/css/style.css" />
+
+</head>
+<body>
+
+	<header th:replace="Cabecalho"></header>
+
+	<div class="container-mx">
+		<form class="form-horizontal">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<div class="clearfix">
+						<h4 class="titulo-panel">Pesquisa por participante</h4>
+					</div>
+				</div>
+
+				<div class="panel-body">
+					<form method="get" class="form-horizontal" action="/pessoa/lista/pornome" th:object="${filtro}">
+						<div class="form-group">
+							<div class="col-sm-3">
+								<div class="input-group">
+									<input class="form-control" placeholder="Informe um nome de um participante"
+										autofocus="autofocus"
+										th:field="*{nome}"><span
+										class="input-group-btn">
+										<button type="submit" class="btn btn-default">
+											<i class="glyphicon glyphicon-search"></i>
+										</button>
+									</span>
+								</div>
+							</div>
+						</div>
+					</form>
+					<div class="table-responsive">
+						<table class="table table-bordered table-striped">
+							<thead>
+								<tr>
+									<th class="text-left col-md-1">ID</th>
+									<th class="text-left col-md-2">Nome</th>
+									<th class="text-left col-md-3">Sobrenome</th>
+									<th class="text-left col-md-3">Salas Evento</th>
+									<th class="text-left col-md-3">Espaço Café</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="p : ${pessoa}">
+									<td class="text-left" th:text="${p.id}"></td>
+										<td class="text-left" th:text="${p.nome}"></td>
+									<td class="text-left" th:text="${p.sobrenome}"></td>
+									<td class="text-left">
+										<ul th:each="s : ${p.salas}">
+											<li th:text="${s.nome}"></li>
+										</ul>
+									</td>
+									<td class="text-left" th:text="${p.espacoCafe.nome}"></td>
+
+								</tr>
+								<tr>
+									<td colspan="5" th:if="${#lists.isEmpty(pessoa)}">Sem
+										Participantes cadastrados</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+
+	<footer th:replace="Rodape"></footer>
+</body>
+</html>
