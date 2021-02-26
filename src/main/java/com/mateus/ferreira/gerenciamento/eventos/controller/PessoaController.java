@@ -4,24 +4,23 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.Errors;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.mateus.ferreira.gerenciamento.eventos.entity.EspacoCafe;
-import com.mateus.ferreira.gerenciamento.eventos.entity.PessoaDTORequest;
+import com.mateus.ferreira.gerenciamento.eventos.entity.Pessoa;
+import com.mateus.ferreira.gerenciamento.eventos.entity.PessoaRequest;
 import com.mateus.ferreira.gerenciamento.eventos.entity.Sala;
-import com.mateus.ferreira.gerenciamento.eventos.entity.dto.PessoaDTO;
-import com.mateus.ferreira.gerenciamento.eventos.entity.dto.PessoaEspecificaDTO;
-import com.mateus.ferreira.gerenciamento.eventos.reposotiry.SalaRepository;
-import com.mateus.ferreira.gerenciamento.eventos.reposotiry.filtro.PessoaFiltro;
-import com.mateus.ferreira.gerenciamento.eventos.reposotiry.filtro.SalaOuEspacoFiltro;
 import com.mateus.ferreira.gerenciamento.eventos.service.EspacoCafeService;
 import com.mateus.ferreira.gerenciamento.eventos.service.PessoaService;
 import com.mateus.ferreira.gerenciamento.eventos.service.SalaService;
+import com.mateus.ferreira.gerenciamento.eventos.util.filtro.FiltroConsultaPorNome;
 
 @Controller
 @RequestMapping("/pessoa")
@@ -34,21 +33,19 @@ public class PessoaController {
 	private SalaService salaService;
 
 	@Autowired
-	private SalaRepository salaRepository;
-
-	@Autowired
 	private EspacoCafeService espacoCafeService;
 
 
 	@GetMapping("/cadastro")
 	public ModelAndView cadastraPessoa() {
 		ModelAndView mv = new ModelAndView("CadastrarPessoa");
+		mv.addObject(new PessoaRequest());
 		return mv;
 	}
 
 	@RequestMapping("/lista/pornome")
-	public ModelAndView listarPessoaPorNome(@ModelAttribute("filtro") PessoaFiltro filtro) {
-		List<PessoaEspecificaDTO> pessoa = pessoaService.listarPessoaPorNome(filtro);
+	public ModelAndView listarPessoaPorNome(@ModelAttribute("filtro") FiltroConsultaPorNome filtro) {
+		List<Pessoa> pessoa = pessoaService.listarPessoaPorNome(filtro);
 
 		ModelAndView mv = new ModelAndView("ListarPessoaPorNome");
 		mv.addObject("pessoa", pessoa);
@@ -57,44 +54,40 @@ public class PessoaController {
 	}
 
 	@RequestMapping("/lista/porsalaouespaco")
-	public ModelAndView listaPessoasPorSalaOuEspaco(@ModelAttribute("filtro") SalaOuEspacoFiltro filtro) {
-		List<PessoaDTO> listaPessoas = pessoaService.listaPessoasPorSalaOuEspaco(filtro);
+	public ModelAndView listaPessoasPorSalaOuEspaco(@ModelAttribute("filtro") FiltroConsultaPorNome filtro) {
+		List<Pessoa> listaPessoas = pessoaService.listaPessoasPorSalaOuEspaco(filtro);
 		ModelAndView md = new ModelAndView("ListarPessoasPorEspacoOuSala");
 		md.addObject("pessoas", listaPessoas);
 		return md;
 	}
 
-	@RequestMapping("{id}")
-	public ModelAndView selecao(@PathVariable("id") Long id) {
-		Sala sala = salaRepository.getOne(id);
-		ModelAndView mv = new ModelAndView("/sala/cadastro");
-		mv.addObject(sala);
-		return mv;
-	}
-
 	@RequestMapping(method = RequestMethod.POST)
-	public String salvar(PessoaDTORequest pessoaDTORequest) {
-
-		pessoaService.salvar(pessoaDTORequest);
+	public String salvar(@Validated PessoaRequest pessoaRequest, Errors errors, RedirectAttributes attributes) {
+		if(errors.hasErrors()) {
+			return "CadastrarPessoa";
+		}
+		pessoaService.salvar(pessoaRequest);
+		attributes.addFlashAttribute("mensagem", "Cadastro realizado com sucesso!");
 
 		return "CadastrarPessoa";
 	}
 
 	@ModelAttribute("todasSalas")
-	public PessoaDTORequest todasSalas() {
+	public PessoaRequest todasSalas() {
 		List<Sala> salas = salaService.lista();
-		PessoaDTORequest todasSalas = new PessoaDTORequest();
+		PessoaRequest todasSalas = new PessoaRequest();
 		todasSalas.setSalas(salas);
 
 		return todasSalas;
 	}
 
 	@ModelAttribute("todosEspacoCafe")
-	public PessoaDTORequest todosEspacoCafe() {
+	public PessoaRequest todosEspacoCafe() {
 		List<EspacoCafe> espacosCafes = espacoCafeService.lista();
-		PessoaDTORequest todosEspacoCafe = new PessoaDTORequest();
+		PessoaRequest todosEspacoCafe = new PessoaRequest();
 		todosEspacoCafe.setEspacosCafes(espacosCafes);
 
 		return todosEspacoCafe;
 	}
 }
+

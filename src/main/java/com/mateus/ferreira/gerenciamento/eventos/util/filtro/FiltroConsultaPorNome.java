@@ -1,6 +1,6 @@
-package com.mateus.ferreira.gerenciamento.eventos.reposotiry.filtro;
+package com.mateus.ferreira.gerenciamento.eventos.util.filtro;
 
-public class PessoaFiltro {
+public class FiltroConsultaPorNome {
 
 	private String nome;
 	

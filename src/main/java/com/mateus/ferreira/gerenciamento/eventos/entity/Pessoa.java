@@ -11,6 +11,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -26,8 +27,11 @@ public class Pessoa {
 	@EqualsAndHashCode.Include
 	private Long id;
 	
+	@NotBlank(message = "Campo nome é Obrigatorio! Em branco é não permitido.")
 	private String nome;
 	
+
+	@NotBlank(message = "Campo sobrenome é Obrigatorio! Em branco é não permitido.")
 	private String sobrenome;
 	
 	@OneToMany
