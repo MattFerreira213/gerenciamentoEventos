@@ -14,12 +14,20 @@ public class EspacoCafeService {
 	@Autowired
 	private EspacoCafeRepository espacoCafeRepository;
 
+	/**
+	 * Método responsável por listar os espaços de café na tela de cadastro de pessoas 
+	 * @return
+	 */
 	public List<EspacoCafe> lista() {
 		List<EspacoCafe> listaEspacoCafe = espacoCafeRepository.findAll();
 		
 		return listaEspacoCafe;
 	}
 
+	/**
+	 * Método responsável por salvar os espaços para café
+	 * @param espacoCafe
+	 */
 	public void salvar(EspacoCafe espacoCafe) {
 		
 		EspacoCafe espacoCafeEncontrado = espacoCafeRepository.findEspacoCafeByNome(espacoCafe.getNome());

@@ -22,7 +22,12 @@ public class PessoaService {
 
 	@Autowired
 	private PessoaRepositoryImpl pessoaRepositoryImpl;
-
+	
+	/**
+	 * Método responsável por listar todos os dados de uma pessoa específica
+	 * @param filtro
+	 * @return Lista com dados de uma pessoa específica
+	 */
 	public List<Pessoa> listarPessoaPorNome(FiltroConsultaPorNome filtro) {
 
 		String pessoaNome = filtro.getNome() == null ? "" : filtro.getNome();
@@ -32,6 +37,11 @@ public class PessoaService {
 		return pessoas;
 	}
 
+	/**
+	 * Método responsável por listar todas as pessoas que estaram em uma sala ou espaço de café
+	 * @param filtro
+	 * @return Lista de pessoas
+	 */
 	public List<Pessoa> listaPessoasPorSalaOuEspaco(FiltroConsultaPorNome filtro) {
 
 		String salaOuEspacoNome = filtro.getNome() == null ? "" : filtro.getNome();
@@ -41,23 +51,27 @@ public class PessoaService {
 		return listaPessoas;
 	}
 
-	public void salvar(PessoaRequest pessoaDTORequest) {
-		if (pessoaDTORequest.getNome() != null && pessoaDTORequest.getSobrenome() != null
-				&& pessoaDTORequest.getSalas().get(0).getId() > 0
-				&& pessoaDTORequest.getEspacosCafes().get(0).getId() > 0) {
+	/**
+	 * Método responsável por salvar as pessoas participantes dos eventos
+	 * @param pessoaRequest
+	 */
+	public void salvar(PessoaRequest pessoaRequest) {
+		if (pessoaRequest.getNome() != null && pessoaRequest.getSobrenome() != null
+				&& pessoaRequest.getSalas().get(0).getId() > 0
+				&& pessoaRequest.getEspacosCafes().get(0).getId() > 0) {
 			
 			Sala sala = new Sala();
-			sala.setId(pessoaDTORequest.getSalas().get(0).getId());
+			sala.setId(pessoaRequest.getSalas().get(0).getId());
 			
 			List<Sala> salas  = new ArrayList<>();
 			salas.add(sala);
 			
 			EspacoCafe espacoCafe = new EspacoCafe();
-			espacoCafe.setId(pessoaDTORequest.getEspacosCafes().get(0).getId());
+			espacoCafe.setId(pessoaRequest.getEspacosCafes().get(0).getId());
 
 			Pessoa pessoa = new Pessoa();
-			pessoa.setNome(pessoaDTORequest.getNome());
-			pessoa.setSobrenome(pessoaDTORequest.getSobrenome());
+			pessoa.setNome(pessoaRequest.getNome());
+			pessoa.setSobrenome(pessoaRequest.getSobrenome());
 			pessoa.setSalas(salas);
 			pessoa.setEspacocafe(espacoCafe);
 

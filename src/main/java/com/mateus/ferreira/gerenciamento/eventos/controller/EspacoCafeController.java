@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.mateus.ferreira.gerenciamento.eventos.entity.EspacoCafe;
 import com.mateus.ferreira.gerenciamento.eventos.service.EspacoCafeService;
@@ -27,14 +26,12 @@ public class EspacoCafeController {
 	}		 
 	
 	@RequestMapping(method = RequestMethod.POST)
-	public String salvar(@Validated EspacoCafe espacoCafe, Errors errors, RedirectAttributes attributes) {
+	public String salvar(@Validated EspacoCafe espacoCafe, Errors errors) {
 		if(errors.hasErrors()) {
 			return "CadastrarEspacoCafe";
 		}
 		
 		espacoCafeService.salvar(espacoCafe);
-		attributes.addFlashAttribute("mensagem", "Cadastro realizado com sucesso!");
-		
 		return "CadastrarEspacoCafe";
 	}
 }

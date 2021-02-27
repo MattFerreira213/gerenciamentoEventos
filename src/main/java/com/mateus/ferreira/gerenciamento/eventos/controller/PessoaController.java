@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.mateus.ferreira.gerenciamento.eventos.entity.EspacoCafe;
 import com.mateus.ferreira.gerenciamento.eventos.entity.Pessoa;
@@ -62,13 +61,11 @@ public class PessoaController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public String salvar(@Validated PessoaRequest pessoaRequest, Errors errors, RedirectAttributes attributes) {
+	public String salvar(@Validated PessoaRequest pessoaRequest, Errors errors) {
 		if(errors.hasErrors()) {
 			return "CadastrarPessoa";
 		}
 		pessoaService.salvar(pessoaRequest);
-		attributes.addFlashAttribute("mensagem", "Cadastro realizado com sucesso!");
-
 		return "CadastrarPessoa";
 	}
 
